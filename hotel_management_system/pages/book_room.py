@@ -64,24 +64,4 @@ class book_room:
             db.rollback()
 
 
-
-    
-
-
-    
-      
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
 obj=book_room()
