@@ -5,13 +5,27 @@
 This README explains what the project does, how to use it, and how others can contribute. A good README helps people understand your project quickly, and GitHub displays it automatically on the repo page.
 
 ---
-### Prerequisites
-- Python **3.8+** installed
+### 🔗Prerequisites
+- <b>Python version</b><br>
+  -Python **3.8+** installed
+- <b>IDE/Code Editor</b><br>
+   -VS Code
+ </br>
 
-### Run the program
+# 🖥️Tech Stack
+- python
+
+<h1>📑About the project</h1>
+   <p>Hotel Management System is (GUI) based project using streamlit.<br>
+    This includes Database connectivity.<br>
+    It Includes Guest Signup and Login options<br>
+    Here when user check in the room is updated to "not available"<br>
+   </p>
+   
+### 📁Run File
 <pre><code>welcome.py</code></pre>
 
-### Create a 'pages' folder which will include all the other .py files 
+### 📂Create a 'pages' folder which will include all the other .py files 
 In pages folder below files will be included :
 <p><pre>book_room.py<br>
 check_out.py<br>
@@ -23,6 +37,7 @@ guest_signup.py<br>
 
 ## 📗book_room.py
 #### 👩‍💻Code 
+
 <pre><code>
  import streamlit as st 
 import pymysql
@@ -78,7 +93,6 @@ class book_room:
             st.error(f"error {e}")
             db.rollback()
 
-
 obj=book_room()
 </code></pre>
 
@@ -110,12 +124,131 @@ class check:
            
         except Exception as e:
             st.error(f"error {e}")
-            db.rollback()
-                             
+            db.rollback()                  
 obj=check()
-  
  </code>
 </pre>
+
+## 🏨check_room.py
+#### 👩‍💻Code
+<pre>
+ <code>
+  import streamlit as st 
+import pymysql 
+
+db=pymysql.connect(host="localhost",user="root",password="",database="sakshi_hotel_management_system")
+cursor=db.cursor()
+
+
+class room:
+    def __init__(self):
+        check_button=st.button(label="CHECK ROOM OPTIONS")
+        if check_button:
+            self.check_room()
+        
+        book_room=st.button(label="BOOK ROOM")
+        if book_room:
+            st.switch_page("pages/book_room.py")
+
+    def check_room(self):
+        select="SELECT * FROM room"
+        try:
+            cursor.execute(select)
+            db.commit()
+            fetch_room=cursor.fetchall()
+            for i in fetch_room:
+                  st.table(i)
+
+        except Exception as e :
+            st.error(f"error {e}")
+            db.rollback()
+  
+obj=room()
+ </code>
+</pre>
+
+## 👤guest_login.py
+#### 👩‍💻Code
+
+<pre>
+ <code>
+  import streamlit as st
+import pymysql 
+
+db=pymysql.connect(host="localhost",user="root",password="",database="sakshi_hotel_management_system")
+cursor=db.cursor()
+
+class login:
+    def __init__(self):
+        username=st.text_input(label="USERNAME",placeholder="enter your username here")
+        password=st.text_input(label="PASSWORD",placeholder="enter your password here",type="password")
+
+        guest_login_button=st.button(label="GUEST LOGIN")
+        if guest_login_button:
+            self.user_login(username,password)
+
+
+    def user_login(self,username,password):
+        user="SELECT * FROM guest where username=%s and password=%s"
+
+        try:
+            cursor.execute(user,(username,password))
+            db.commit()
+            fetch=cursor.fetchone()
+            if fetch:
+                st.switch_page("pages/check_room.py")
+            
+
+        except Exception as e :
+            st.error(f"error {e}")
+            db.rollback()
+
+obj=login()
+ </code>
+</pre>
+
+## 👤guest_signup.py
+#### 👩‍💻Code
+
+<pre>
+ <code>
+  import streamlit as st
+import pymysql 
+
+db=pymysql.connect(host="localhost",user="root",password="",database="sakshi_hotel_management_system")
+cursor=db.cursor()
+
+class login:
+    def __init__(self):
+        username=st.text_input(label="USERNAME",placeholder="enter your username here")
+        password=st.text_input(label="PASSWORD",placeholder="enter your password here",type="password")
+
+        guest_login_button=st.button(label="GUEST LOGIN")
+        if guest_login_button:
+            self.user_login(username,password)
+
+
+    
+    def user_login(self,username,password):
+        user="SELECT * FROM guest where username=%s and password=%s"
+
+        try:
+            cursor.execute(user,(username,password))
+            db.commit()
+            fetch=cursor.fetchone()
+            if fetch:
+                st.switch_page("pages/check_room.py")
+            
+
+        except Exception as e :
+            st.error(f"error {e}")
+            db.rollback()
+
+obj=login()
+ </code>
+</pre>
+
+
 
 
 
